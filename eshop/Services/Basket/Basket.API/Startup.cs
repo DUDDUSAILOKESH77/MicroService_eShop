@@ -1,3 +1,5 @@
+using Basket.API.Repositories;
+using Basket.API.Repositories.Contract;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +31,7 @@ namespace Basket.API
             {
                 x.Configuration = Configuration.GetValue<string>("redisconnectionstring:ConnectionStrings");
             });
+            services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
