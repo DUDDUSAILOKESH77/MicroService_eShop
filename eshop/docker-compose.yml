@@ -3,24 +3,44 @@ version: '3.4'
 services:
   catalogdb:
     image: mongo
+
   redisdb:
     image: redis:alpine
+
+  discountdb:
+    image: postgres
+
   portainer:
     image: portainer/portainer-ce
+
   mongolient:
     image: mongoclient/mongoclient
+  
+  pgadmin:
+    image: dpage/pgadmin4
+
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
+
   basket.api:
     image: ${DOCKER_REGISTRY-}basketapi
     build:
       context: .
       dockerfile: Services/Basket/Basket.API/Dockerfile
 
+  discount.api:
+    image: ${DOCKER_REGISTRY-}discountapi
+    build:
+      context: .
+      dockerfile: Services/Discount/Discount.API/Dockerfile
+
 volumes:
   mongo_data:
   redis_data:
+  postgres_data:
   portainer_data:
+  pgadmin_data:
+
