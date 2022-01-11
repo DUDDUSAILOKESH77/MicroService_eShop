@@ -20,6 +20,6 @@ namespace Catalog.API.Data
             ProductsContextSeed.SeedData(Product);
         }
 
-        public IMongoCollection<Products> Product { get; set; }
+        public IMongoCollection<Products> Products { get; set; }
     }
 }

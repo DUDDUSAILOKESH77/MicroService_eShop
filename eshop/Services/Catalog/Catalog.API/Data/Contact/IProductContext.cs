@@ -9,6 +9,6 @@ namespace Catalog.API.Data.Contact
 {
     public interface IProductContext
     {
-        IMongoCollection<Products> Product { get; set; }
+        IMongoCollection<Products> Products { get; set; }
     }
 }

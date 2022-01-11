@@ -21,12 +21,12 @@ namespace Catalog.API.Repositories
 
         public async Task CreateProduct(Products product)
         {
-            await productContext.Product.InsertOneAsync(product);
+            await productContext.Products.InsertOneAsync(product);
         }
 
         public async Task<bool> DeleteProduct(string id)
         {
-            var result = await productContext.Product.DeleteOneAsync(x => x.Id == id);
+            var result = await productContext.Products.DeleteOneAsync(x => x.Id == id);
 
             return result.IsAcknowledged && result.DeletedCount>0;
         }
@@ -34,29 +34,29 @@ namespace Catalog.API.Repositories
         public async Task<Products> GetProduct(string id)
         {
             return await productContext
-                .Product.Find(filter: x => x.Id == id).FirstOrDefaultAsync();
+                .Products.Find(filter: x => x.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Products>> GetProductByCategory(string categoryName)
         {
             return await productContext.
-                Product.Find(filter: x => x.Category == categoryName).ToListAsync();
+                Products.Find(filter: x => x.Category == categoryName).ToListAsync();
         }
 
         public async Task<IEnumerable<Products>> GetProductByName(string name)
         {
             return await productContext.
-    Product.Find(filter: x => x.Name == name).ToListAsync();
+    Products.Find(filter: x => x.Name == name).ToListAsync();
         }
 
         public async Task<IEnumerable<Products>> GetProducts()
         {
-            return await productContext.Product.Find(x => true).ToListAsync();
+            return await productContext.Products.Find(x => true).ToListAsync();
         }
 
         public async Task<bool> UpdateProduct(Products product)
         {
-            var result = await productContext.Product
+            var result = await productContext.Products
                 .ReplaceOneAsync(filter: x => x.Id == product.Id, replacement: product);
             return result.IsAcknowledged && result.ModifiedCount>0;
         }
