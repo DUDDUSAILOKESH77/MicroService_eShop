@@ -1,4 +1,5 @@
 ﻿using Catalog.API.Entities;
+using Catalog.API.GRPCService;
 using Catalog.API.Repositories.Contract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,11 +17,13 @@ namespace Catalog.API.Controllers
     {
         private readonly IProductRepository _repository;
         private readonly ILogger<CatalogController> _logger;
+        readonly DiscountGRPCService discountGRPCService;
 
-        public CatalogController(IProductRepository repository, ILogger<CatalogController> logger)
+        public CatalogController(IProductRepository repository, ILogger<CatalogController> logger, DiscountGRPCService discountGRPCService)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _repository = repository;
+            _logger = logger;
+            this.discountGRPCService = discountGRPCService;
         }
 
         [HttpGet]
@@ -37,6 +40,11 @@ namespace Catalog.API.Controllers
         public async Task<ActionResult<Products>> GetProductById(string id)
         {
             var product = await _repository.GetProduct(id);
+            var discountPrice = await this.discountGRPCService.GetDiscount(product.Name);
+            if (discountPrice.Amount > 0)
+            {
+                product.discountoff = product.Price - discountPrice.Amount;
+            }
 
             if (product == null)
             {
