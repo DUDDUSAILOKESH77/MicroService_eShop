@@ -42,7 +42,7 @@ namespace Basket.API.Controllers
                 var d2 = await this._discountGRPCService.GetDiscount(data.ProductName);
                 data.Price = data.Price - d2.Amount;
             }
-            return Ok();
+            return Ok(updatedData);
         }
 
         [HttpDelete("{userName}", Name = "DeleteBasket")]
